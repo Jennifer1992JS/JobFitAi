@@ -3,406 +3,1534 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JobFit AI – Analysieren. Matchen. Weiterkommen.</title>
+  <title>JobFit AI — Intelligence Beyond the Resume</title>
+  
+  <!-- Modern Premium Typography: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <style>
+    /* ==========================================================================
+       1. SYSTEM ARCHITECTURE & DESIGN TOKENS
+       ========================================================================== */
     :root {
+      /* Color Palette */
       --bg-dark: #070B12;
-      --card-bg: #0F172A;
+      --bg-surface: #0B111E;
+      --card-bg: rgba(15, 23, 42, 0.65);
+      --card-bg-solid: #0F172A;
       --card-border: rgba(255, 255, 255, 0.08);
-      --input-bg: #1E293B;
+      --card-border-glow: rgba(0, 242, 254, 0.25);
+      
       --text-main: #F8FAFC;
       --text-muted: #94A3B8;
-      --accent-cyan: #00F2FE;
-      --accent-purple: #7F00FF;
-      --gradient-main: linear-gradient(135deg, #00F2FE 0%, #7F00FF 100%);
-      --gradient-hover: linear-gradient(135deg, #38BDF8 0%, #9333EA 100%);
+      --text-dim: #64748B;
+      
+      --cyan: #00F2FE;
+      --blue: #3B82F6;
+      --purple: #7F00FF;
+      
+      /* Status Colors */
+      --success: #10B981;
+      --success-glow: rgba(16, 185, 129, 0.2);
+      --warning: #F59E0B;
+      --warning-glow: rgba(245, 158, 11, 0.2);
+      --danger: #EF4444;
+      --danger-glow: rgba(239, 68, 68, 0.2);
+      
+      /* Gradients */
+      --gradient-brand: linear-gradient(135deg, var(--cyan) 0%, var(--blue) 50%, var(--purple) 100%);
+      --gradient-brand-hover: linear-gradient(135deg, #38BDF8 0%, #2563EB 50%, #9333EA 100%);
+      --gradient-glow: radial-gradient(circle, rgba(0, 242, 254, 0.15) 0%, rgba(127, 0, 255, 0.08) 40%, rgba(7, 11, 18, 0) 70%);
+      --gradient-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+
+      /* Shadows & Elevation */
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 40px rgba(0, 242, 254, 0.15);
+
+      /* Typography */
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Animation Specs */
+      --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-bounce: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    * {
+    /* Reset & Core Setup */
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    body {
+    html {
+      scroll-behavior: smooth;
       background-color: var(--bg-dark);
       color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      line-height: 1.6;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
     }
 
-    /* Hintergründe & Glow */
-    .glow-bg {
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Background Ambient Canvas */
+    .ambient-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .glow-orb {
       position: absolute;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.4;
+      animation: floatOrb 20s ease-in-out infinite alternate;
+    }
+
+    .glow-orb-1 {
+      top: -10%;
+      left: 20%;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(127, 0, 255, 0.15) 0%, rgba(0, 242, 254, 0.05) 50%, rgba(0,0,0,0) 70%);
+      background: var(--purple);
+    }
+
+    .glow-orb-2 {
+      top: 30%;
+      right: -10%;
+      width: 700px;
+      height: 700px;
+      background: var(--blue);
+      animation-delay: -7s;
+    }
+
+    .glow-orb-3 {
+      bottom: 10%;
+      left: -5%;
+      width: 500px;
+      height: 500px;
+      background: var(--cyan);
+      animation-delay: -14s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(60px, 40px) scale(1.1); }
+      100% { transform: translate(-40px, 80px) scale(0.95); }
+    }
+
+    /* Grid Overlay Effect */
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
       z-index: -1;
       pointer-events: none;
     }
 
-    /* Container & Header */
+    /* Container Standard */
     .container {
       width: 100%;
-      max-width: 900px;
-      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .logo-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .logo-img {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      object-fit: contain;
-    }
-
-    .brand-name {
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .brand-name span {
-      background: var(--gradient-main);
+    /* Typography Utilities */
+    .gradient-text {
+      background: var(--gradient-brand);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .tagline {
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-top: 4px;
+    .mono {
+      font-family: var(--font-mono);
     }
 
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-top: 20px;
-      margin-bottom: 15px;
-    }
-
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      max-width: 650px;
-      margin: 0 auto;
-    }
-
-    /* Form Card */
-    .card {
+    /* Glassmorphism Card System */
+    .glass-card {
       background: var(--card-bg);
+      background-image: var(--gradient-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--card-border);
       border-radius: 24px;
-      padding: 35px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      margin-bottom: 40px;
+      box-shadow: var(--shadow-md);
+      transition: border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+      position: relative;
+      overflow: hidden;
     }
 
-    .privacy-notice {
-      background: rgba(0, 242, 254, 0.05);
-      border: 1px solid rgba(0, 242, 254, 0.2);
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 0.9rem;
-      color: var(--accent-cyan);
-      margin-bottom: 25px;
-      display: flex;
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(0, 242, 254, 0.3);
+      box-shadow: var(--shadow-md), 0 0 30px rgba(0, 242, 254, 0.1);
+    }
+
+    /* Interactive Buttons */
+    .btn {
+      display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
-    }
-
-    .form-group {
-      margin-bottom: 25px;
-    }
-
-    label {
-      display: block;
+      padding: 14px 28px;
+      border-radius: 14px;
       font-weight: 600;
       font-size: 0.95rem;
-      margin-bottom: 8px;
-      color: var(--text-main);
-    }
-
-    textarea, input[type="text"] {
-      width: 100%;
-      background: var(--input-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 16px;
-      color: var(--text-main);
-      font-size: 0.95rem;
-      outline: none;
-      transition: all 0.2s ease;
-      resize: vertical;
-    }
-
-    textarea:focus, input[type="text"]:focus {
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
-    }
-
-    /* Button */
-    .btn-submit {
-      width: 100%;
-      background: var(--gradient-main);
-      border: none;
-      border-radius: 14px;
-      padding: 18px;
-      color: #fff;
-      font-size: 1.1rem;
-      font-weight: 700;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .btn-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(127, 0, 255, 0.4);
-    }
-
-    /* Result View */
-    #resultArea {
-      display: none;
-    }
-
-    .score-box {
-      text-align: center;
-      padding: 30px;
-      background: rgba(255,255,255,0.02);
-      border-radius: 20px;
-      margin-bottom: 30px;
-    }
-
-    .score-circle {
-      font-size: 3.5rem;
-      font-weight: 800;
-      background: var(--gradient-main);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .result-section {
-      margin-bottom: 25px;
-    }
-
-    .result-section h3 {
-      font-size: 1.2rem;
-      color: var(--accent-cyan);
-      margin-bottom: 10px;
-    }
-
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .tag {
-      background: rgba(255,255,255,0.06);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-    }
-
-    /* Footer */
-    footer {
-      margin-top: auto;
-      text-align: center;
-      padding: 30px 0;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-
-    footer a {
-      color: var(--text-muted);
+      transition: all var(--transition-fast);
       text-decoration: none;
-      margin: 0 10px;
+      border: none;
+      outline: none;
+      position: relative;
     }
 
-    footer a:hover {
-      color: var(--accent-cyan);
+    .btn-primary {
+      background: var(--gradient-brand);
+      color: #FFF;
+      box-shadow: 0 4px 20px rgba(127, 0, 255, 0.35);
     }
 
-    /* Spinner */
-    .spinner {
-      display: none;
-      margin: 20px auto;
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      background: var(--gradient-brand-hover);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+      z-index: -1;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 242, 254, 0.4);
+    }
+
+    .btn-primary:hover::after {
+      opacity: 1;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: rgba(0, 242, 254, 0.08);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+    }
+
+    /* ==========================================================================
+       2. HEADER & NAVIGATION
+       ========================================================================== */
+    header.nav-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 11, 18, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 16px 0;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Modern Geometric Logo Component */
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .logo-icon-container {
       width: 40px;
       height: 40px;
-      border: 4px solid rgba(255,255,255,0.1);
-      border-left-color: var(--accent-cyan);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    /* ==========================================================================
+       3. HERO SECTION
+       ========================================================================== */
+    .hero {
+      padding: 90px 0 60px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin: 20px 0;
+    }
+
+    .hero-content p.hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 36px;
+      max-width: 580px;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Abstract Visual Component in Hero */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .visual-card-preview {
+      width: 100%;
+      height: 380px;
+      border-radius: 28px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(11, 17, 30, 0.9) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: var(--shadow-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-orbit {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      border: 1px dashed rgba(0, 242, 254, 0.25);
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: spin 30s linear infinite;
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* ==========================================================================
+       4. TRUST BAR SECTION
+       ========================================================================== */
+    .trust-section {
+      padding: 30px 0;
+      border-y: 1px solid var(--card-border);
+      margin-bottom: 60px;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .trust-icon {
+      color: var(--cyan);
+      display: flex;
+    }
+
+    .trust-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* ==========================================================================
+       5. INPUT FORM SECTION
+       ========================================================================== */
+    .app-section {
+      padding: 40px 0 80px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-top: 12px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .input-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .input-label span.label-hint {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    .custom-textarea {
+      width: 100%;
+      height: 220px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 20px;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      resize: none;
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+
+    .custom-textarea:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .action-container {
+      text-align: center;
+    }
+
+    .btn-analyze {
+      padding: 18px 48px;
+      font-size: 1.1rem;
+      border-radius: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ==========================================================================
+       6. DYNAMIC LOADING SCREEN
+       ========================================================================== */
+    #loadingSection {
+      display: none;
+      padding: 60px 0;
+    }
+
+    .loader-card {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 48px;
+      text-align: center;
+    }
+
+    .progress-bar-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 32px 0;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--gradient-brand);
+      border-radius: 99px;
+      transition: width 0.4s ease;
+      box-shadow: 0 0 15px var(--cyan);
+    }
+
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      transition: color var(--transition-fast);
+    }
+
+    .step-item.active {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .step-item.completed {
+      color: var(--cyan);
+    }
+
+    .step-icon-status {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+    }
+
+    .step-item.completed .step-icon-status {
+      background: var(--cyan);
+      color: var(--bg-dark);
+      border-color: var(--cyan);
+    }
+
+    /* ==========================================================================
+       7. HIGH-CONVERTING RESULTS DASHBOARD
+       ========================================================================== */
+    #resultsSection {
+      display: none;
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Overall Match Hero Box */
+    .dashboard-hero {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 32px;
+      margin-bottom: 32px;
+      align-items: center;
+    }
+
+    .score-circle-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 36px;
+      position: relative;
+    }
+
+    .radial-progress-svg {
+      width: 180px;
+      height: 180px;
+      transform: rotate(-90deg);
+    }
+
+    .radial-progress-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.05);
+      stroke-width: 12;
+    }
+
+    .radial-progress-val {
+      fill: none;
+      stroke: url(#scoreGradient);
+      stroke-width: 12;
+      stroke-dasharray: 440;
+      stroke-dashoffset: 440;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .score-value-text {
+      position: absolute;
+      top: 38%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .score-label {
+      margin-top: 12px;
+      font-weight: 700;
+      color: var(--cyan);
+      font-size: 1.1rem;
+    }
+
+    /* KPI Cards Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .kpi-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .kpi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+
+    .kpi-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+    }
+
+    /* Strengths Section */
+    .dashboard-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+
+    .strengths-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .strength-card {
+      padding: 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      display: flex;
+      gap: 16px;
+    }
+
+    .strength-icon {
+      color: var(--success);
+      background: var(--success-glow);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Skill Gaps Bars */
+    .gap-item {
+      margin-bottom: 20px;
+    }
+
+    .gap-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .gap-bar-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .gap-bar-fill {
+      height: 100%;
+      background: var(--gradient-brand);
+      border-radius: 99px;
+      width: 0%;
+      transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ATS Badges */
+    .chips-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+
+    .chip-success {
+      background: var(--success-glow);
+      color: #34D399;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .chip-warning {
+      background: var(--warning-glow);
+      color: #FBBF24;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .chip-danger {
+      background: var(--danger-glow);
+      color: #F87171;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    /* ChatGPT Style Interview Section */
+    .interview-chat {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .chat-bubble {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      align-items: flex-start;
+    }
+
+    .chat-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--gradient-brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .chat-content h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--cyan);
+    }
+
+    .chat-content p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Timeline Section */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+      margin-top: 24px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 11px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--cyan) 0%, var(--purple) 100%);
+    }
+
+    .timeline-step {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .timeline-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-node {
+      position: absolute;
+      left: -32px;
+      top: 2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 2px solid var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .timeline-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .timeline-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       8. FOOTER
+       ========================================================================== */
+    footer {
+      margin-top: auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 40px 0;
+      background: rgba(7, 11, 18, 0.9);
+    }
+
+    .footer-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-dim);
+      font-size: 0.88rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .footer-links a:hover {
+      color: var(--text-main);
+    }
+
+    /* ==========================================================================
+       9. RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-content p.hero-subtitle {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-cta-group {
+        justify-content: center;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .dashboard-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-wrapper {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="glow-bg"></div>
-
-  <div class="container">
-    <!-- Header -->
-    <header>
-      <div class="logo-badge">
-        <!-- Ersetze logo.png durch deinen tatsächlichen Dateinamen -->
-        <img src="logo.png" alt="JobFit AI Logo" class="logo-img" onerror="this.style.display='none'">
-        <div class="brand-name">JobFit <span>AI</span></div>
-      </div>
-      <div class="tagline">Analysieren. Matchen. Weiterkommen.</div>
-      <h1>Passest du wirklich auf deinen Wunschjob?</h1>
-      <p class="subtitle">Vergleiche deine Skills direkt mit der Stellenanzeige. Erhalte einen ehrlichen Match-Score, Stärken & konkrete Lerntipps – ohne Anschreiben-Blabla.</p>
-    </header>
-
-    <!-- Eingabe-Formular -->
-    <div class="card" id="formCard">
-      <div class="privacy-notice">
-        🔒 <strong>Datenschutz First:</strong> Keine CV-Uploads. Gib nur anonyme Skills & Erfahrung ein. Daten werden nicht gespeichert.
-      </div>
-
-      <form id="jobFitForm">
-        <div class="form-group">
-          <label for="userSkills">Deine Skills & Berufserfahrung</label>
-          <textarea id="userSkills" rows="4" placeholder="Z. B. Quereinsteiger im Kundenservice, Erfahrung mit CRM-Systemen, starke Kommunikation, Grundkenntnisse Python..." required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="jobDescription">Die Stellenanzeige (Text oder Anforderungen)</label>
-          <textarea id="jobDescription" rows="6" placeholder="Füge hier den Text oder die Key-Requirements der Stellenanzeige ein..." required></textarea>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submitBtn">Jetzt Eignung analysieren ✨</button>
-        <div class="spinner" id="spinner"></div>
-      </form>
-    </div>
-
-    <!-- Ergebnis-Anzeige -->
-    <div class="card" id="resultArea">
-      <div class="score-box">
-        <p style="color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Dein JobFit Match-Score</p>
-        <div class="score-circle" id="resScore">0%</div>
-        <p id="resSummary" style="margin-top: 10px; color: var(--text-main); font-weight: 500;"></p>
-      </div>
-
-      <div class="result-section">
-        <h3>💪 Deine größten Stärken</h3>
-        <ul id="resStrengths" style="padding-left: 20px;"></ul>
-      </div>
-
-      <div class="result-section">
-        <h3>⚡ Entwicklungsfelder & Lücken</h3>
-        <ul id="resGaps" style="padding-left: 20px;"></ul>
-      </div>
-
-      <div class="result-section">
-        <h3>🎯 Empfohlene nächste Schritte</h3>
-        <div class="tag-list" id="resRecommendations"></div>
-      </div>
-
-      <button onclick="window.location.reload()" class="btn-submit" style="margin-top: 20px; background: rgba(255,255,255,0.1);">Neuer Check 🔄</button>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-      <p>&copy; 2026 JobFit AI. Privat-Projekt / KI-Showcase.</p>
-      <p style="margin-top: 8px;">
-        <a href="#">Impressum</a> • <a href="#">Datenschutz</a>
-      </p>
-    </footer>
+  <!-- Background Ambient Lights -->
+  <div class="ambient-canvas">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
   </div>
+  <div class="bg-grid"></div>
 
-  <script>
-    const form = document.getElementById('jobFitForm');
-    const spinner = document.getElementById('spinner');
-    const submitBtn = document.getElementById('submitBtn');
-    const formCard = document.getElementById('formCard');
-    const resultArea = document.getElementById('resultArea');
+  <!-- NAVIGATION HEADER -->
+  <header class="nav-header">
+    <div class="container nav-wrapper">
+      <a href="#" class="brand-logo">
+        <div class="logo-icon-container">
+          <!-- Abstract SVG Lines Icon (No Arrows/Puzzle) -->
+          <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 50C20 33.4315 33.4315 20 50 20C66.5685 20 80 33.4315 80 50" stroke="url(#logoG1)" stroke-width="8" stroke-linecap="round"/>
+            <path d="M30 65C30 53.9543 38.9543 45 50 45C61.0457 45 70 53.9543 70 65" stroke="url(#logoG2)" stroke-width="8" stroke-linecap="round"/>
+            <circle cx="50" cy="75" r="5" fill="#00F2FE"/>
+            <defs>
+              <linearGradient id="logoG1" x1="20" y1="20" x2="80" y2="50" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#00F2FE"/>
+                <stop offset="1" stop-color="#7F00FF"/>
+              </linearGradient>
+              <linearGradient id="logoG2" x1="30" y1="45" x2="70" y2="65" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#3B82F6"/>
+                <stop offset="1" stop-color="#00F2FE"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="brand-title">JobFit <span class="gradient-text">AI</span></span>
+      </a>
 
-    // N8N Webhook-URL (Später deine eigene URL eintragen)
-    const N8N_WEBHOOK_URL = ''; 
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <span class="badge">Beta 2.0</span>
+      </div>
+    </div>
+  </header>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const skills = document.getElementById('userSkills').value;
-      const job = document.getElementById('jobDescription').value;
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="badge" style="margin-bottom: 16px;">
+            <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> Next-Gen Career Intelligence
+          </div>
+          <h1>Finde heraus, wie gut du wirklich zu deinem <span class="gradient-text">Wunschjob</span> passt.</h1>
+          <p class="hero-subtitle">KI analysiert deine Fähigkeiten, vergleicht sie mit der Stellenanzeige und zeigt dir ehrlich, wo du stark bist und was noch fehlt.</p>
+          
+          <div class="hero-cta-group">
+            <a href="#analyzer" class="btn btn-primary btn-analyze">
+              Kostenlos analysieren <i data-lucide="arrow-right" style="width: 18px;"></i>
+            </a>
+            <button class="btn btn-secondary" onclick="runDemo()">
+              <i data-lucide="play-circle" style="width: 18px;"></i> Demo ansehen
+            </button>
+          </div>
+        </div>
 
-      // Loading Animation
-      submitBtn.style.display = 'none';
-      spinner.style.display = 'block';
+        <!-- Hero Visual Element -->
+        <div class="hero-visual">
+          <div class="visual-card-preview">
+            <div class="preview-orbit"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="mono" style="font-size: 0.8rem; color: var(--text-dim);">SYSTEM_STATUS: ONLINE</span>
+              <span class="badge" style="background: rgba(16,185,129,0.1); color: #10B981; border-color: rgba(16,185,129,0.3);">Match Engine v4</span>
+            </div>
 
-      try {
-        let data;
+            <div style="text-align: center; margin: 30px 0;">
+              <div class="mono" style="font-size: 3.5rem; font-weight: 800; color: var(--text-main);">87<span style="font-size: 2rem; color: var(--cyan);">%</span></div>
+              <div style="color: var(--text-muted); font-size: 0.9rem;">Algorithmitischer Passungswert</div>
+            </div>
 
-        // Wenn Webhook eingetragen ist, echten Call machen:
-        if (N8N_WEBHOOK_URL) {
-          const response = await fetch(N8N_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ skills, job })
-          });
-          data = await response.json();
-        } else {
-          // DEMO-Modus (Simulation für Vorschau):
-          await new Promise(resolve => setTimeout(resolve, 2000));
-          data = {
-            score: "78%",
-            summary: "Du bringst eine hervorragende Basis mit! Besondere Pluspunkte sammelst du bei der Kommunikation.",
-            strengths: ["Ausgeprägte Kommunikationsfähigkeit", "Erfahrung mit Kundenkontakt & CRM", "Lösungsorientiertes Denken"],
-            gaps: ["Projektmanagement-Methoden (z. B. Scrum)", "Reporting / Power BI Kenntnisse"],
-            recommendations: ["Grundlagen-Kurs Power BI", "Scrum Crashkurs", "Projektassistenz"]
-          };
-        }
+            <div style="display: flex; gap: 8px;">
+              <div style="flex: 1; height: 6px; background: var(--cyan); border-radius: 99px;"></div>
+              <div style="flex: 1; height: 6px; background: var(--blue); border-radius: 99px;"></div>
+              <div style="flex: 1; height: 6px; background: var(--purple); border-radius: 99px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        // Ergebnisse befüllen
-        document.getElementById('resScore').innerText = data.score;
-        document.getElementById('resSummary').innerText = data.summary;
+    <!-- TRUST BAR -->
+    <section class="trust-section">
+      <div class="container">
+        <div class="trust-grid">
+          <div class="trust-item">
+            <div class="trust-icon"><i data-lucide="user-x"></i></div>
+            <div class="trust-text">Keine Registrierung</div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon"><i data-lucide="file-x"></i></div>
+            <div class="trust-text">Keine Lebenslauf-Uploads</div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon"><i data-lucide="shield-check"></i></div>
+            <div class="trust-text">DSGVO-freundlich</div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon"><i data-lucide="zap"></i></div>
+            <div class="trust-text">Analyse in &lt; 30 Sekunden</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYZER FORM SECTION -->
+    <section class="app-section" id="analyzer">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge">Analyse-Terminal</span>
+          <h2>Starte deine Passungs-Analyse</h2>
+        </div>
+
+        <div class="glass-card" style="padding: 40px;">
+          <form id="jobFitForm" onsubmit="handleAnalysisSubmit(event)">
+            <div class="form-grid">
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="userSkills">Deine Skills & Erfahrung</label>
+                  <span class="label-hint">Freitext oder Stichpunkte</span>
+                </div>
+                <textarea id="userSkills" class="custom-textarea" placeholder="Z. B. 3 Jahre Quereinsteiger im Kundenservice einer Krankenkasse. Starke Kommunikation, CRM-Systeme, Problemlösung. Erste Grundkenntnisse in Python und SQL..." required></textarea>
+              </div>
+
+              <div class="input-container">
+                <div class="input-label">
+                  <label for="jobDescription">Die Stellenanzeige</label>
+                  <span class="label-hint">Anforderungen reinkopieren</span>
+                </div>
+                <textarea id="jobDescription" class="custom-textarea" placeholder="Füge hier den Volltext oder die Anforderungen der Stellenanzeige ein. Z. B. 'Gesucht: Junior IT-Projektassistenz. Aufgaben: Prozessoptimierung, Agiles Arbeiten, Power BI Reporting...'" required></textarea>
+              </div>
+            </div>
+
+            <div class="action-container">
+              <button type="submit" class="btn btn-primary btn-analyze">
+                Jetzt Match berechnen ✨
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOADING SCREEN SECTION -->
+    <section id="loadingSection">
+      <div class="container">
+        <div class="glass-card loader-card">
+          <div class="badge" style="margin-bottom: 20px;">KI-Agent arbeitet</div>
+          <h3>Analysiere Passungsmuster...</h3>
+          
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+          </div>
+
+          <div class="step-list" id="stepList">
+            <div class="step-item" id="step1">
+              <div class="step-icon-status">1</div>
+              <span>Fähigkeiten werden analysiert...</span>
+            </div>
+            <div class="step-item" id="step2">
+              <div class="step-icon-status">2</div>
+              <span>Stellenanzeige wird ausgewertet...</span>
+            </div>
+            <div class="step-item" id="step3">
+              <div class="step-icon-status">3</div>
+              <span>ATS-Keywords werden erkannt...</span>
+            </div>
+            <div class="step-item" id="step4">
+              <div class="step-icon-status">4</div>
+              <span>Match-Score wird berechnet...</span>
+            </div>
+            <div class="step-item" id="step5">
+              <div class="step-icon-status">5</div>
+              <span>Persönliche Empfehlungen werden erstellt...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS DASHBOARD SECTION -->
+    <section id="resultsSection" class="app-section">
+      <div class="container">
         
-        document.getElementById('resStrengths').innerHTML = data.strengths.map(s => `<li>${s}</li>`).join('');
-        document.getElementById('resGaps').innerHTML = data.gaps.map(g => `<li>${g}</li>`).join('');
-        document.getElementById('resRecommendations').innerHTML = data.recommendations.map(r => `<span class="tag">${r}</span>`).join('');
+        <!-- Score Hero Card -->
+        <div class="glass-card dashboard-hero" style="padding: 32px;">
+          <div class="score-circle-wrapper">
+            <svg class="radial-progress-svg" viewBox="0 0 160 160">
+              <defs>
+                <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00F2FE"/>
+                  <stop offset="50%" stop-color="#3B82F6"/>
+                  <stop offset="100%" stop-color="#7F00FF"/>
+                </linearGradient>
+              </defs>
+              <circle class="radial-progress-bg" cx="80" cy="80" r="70"></circle>
+              <circle class="radial-progress-val" id="radialCircle" cx="80" cy="80" r="70"></circle>
+            </svg>
+            <div class="score-value-text" id="scoreText">0%</div>
+            <div class="score-label" id="scoreVerdict">Analyse läuft</div>
+          </div>
 
-        // Ansicht wechseln
-        formCard.style.display = 'none';
-        resultArea.style.display = 'block';
+          <div>
+            <div class="badge" style="margin-bottom: 12px;">Executive Summary</div>
+            <h2 style="font-size: 1.8rem; margin-bottom: 12px;" id="summaryTitle">Sehr gute Passung mit Entwicklungsfeld</h2>
+            <p style="color: var(--text-muted); line-height: 1.7; font-size: 1.05rem;" id="summaryText">
+              Deine starke Service- und Kommunikationserfahrung passt hervorragend zur Zielrolle. Fachlich fehlen dir lediglich vertiefte Werkzeuge im Reporting-Bereich, die du jedoch kurzfristig aufbauen kannst.
+            </p>
+          </div>
+        </div>
 
-      } catch (err) {
-        alert("Fehler bei der Analyse. Bitte versuche es erneut!");
-        submitBtn.style.display = 'block';
-        spinner.style.display = 'none';
-      }
-    });
+        <!-- KPI Grid -->
+        <div class="kpi-grid">
+          <div class="glass-card kpi-card">
+            <div class="kpi-header">
+              <span style="font-size: 0.85rem; font-weight: 600;">Fachliches Match</span>
+              <i data-lucide="code" style="width: 18px; color: var(--cyan);"></i>
+            </div>
+            <div class="kpi-value" id="kpiTech">75%</div>
+          </div>
+
+          <div class="glass-card kpi-card">
+            <div class="kpi-header">
+              <span style="font-size: 0.85rem; font-weight: 600;">Soft Skills</span>
+              <i data-lucide="users" style="width: 18px; color: var(--blue);"></i>
+            </div>
+            <div class="kpi-value" id="kpiSoft">92%</div>
+          </div>
+
+          <div class="glass-card kpi-card">
+            <div class="kpi-header">
+              <span style="font-size: 0.85rem; font-weight: 600;">Lernpotenzial</span>
+              <i data-lucide="trending-up" style="width: 18px; color: var(--purple);"></i>
+            </div>
+            <div class="kpi-value" id="kpiLearning">88%</div>
+          </div>
+
+          <div class="glass-card kpi-card">
+            <div class="kpi-header">
+              <span style="font-size: 0.85rem; font-weight: 600;">ATS-Score</span>
+              <i data-lucide="file-check" style="width: 18px; color: var(--success);"></i>
+            </div>
+            <div class="kpi-value" id="kpiAts">80%</div>
+          </div>
+        </div>
+
+        <!-- Deep Dive Grid: Strengths & Skill Gaps -->
+        <div class="dashboard-grid-2">
+          <!-- Strengths Card -->
+          <div class="glass-card" style="padding: 32px;">
+            <h3 style="margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
+              <i data-lucide="check-circle-2" style="color: var(--success);"></i> Deine größten Stärken
+            </h3>
+            <div class="strengths-list" id="strengthsContainer">
+              <!-- Dynamically Populated -->
+            </div>
+          </div>
+
+          <!-- Skill Gaps Card -->
+          <div class="glass-card" style="padding: 32px;">
+            <h3 style="margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
+              <i data-lucide="alert-triangle" style="color: var(--warning);"></i> Identifizierte Skill-Lücken
+            </h3>
+            <div id="gapsContainer">
+              <!-- Dynamically Populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ATS Keywords Grid -->
+        <div class="glass-card" style="padding: 32px; margin-bottom: 32px;">
+          <h3><i data-lucide="tag" style="color: var(--cyan); margin-right: 8px;"></i> ATS-Keyword Matching</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 4px;">Grün = Vorhanden | Orange = Ausbaufähig | Rot = Fehlt in deinen Angaben</p>
+          <div class="chips-wrapper" id="atsKeywordsContainer">
+            <!-- Dynamically Populated -->
+          </div>
+        </div>
+
+        <!-- ChatGPT Style Interview Preparation -->
+        <div class="glass-card" style="padding: 32px; margin-bottom: 32px;">
+          <h3 style="margin-bottom: 20px;"><i data-lucide="message-square" style="color: var(--blue); margin-right: 8px;"></i> Wahrscheinliche Interviewfragen</h3>
+          <div class="interview-chat" id="interviewChatContainer">
+            <!-- Dynamically Populated -->
+          </div>
+        </div>
+
+        <!-- Action Timeline Plan -->
+        <div class="glass-card" style="padding: 32px;">
+          <h3><i data-lucide="map" style="color: var(--purple); margin-right: 8px;"></i> Dein persönlicher Fahrplan</h3>
+          <div class="timeline" id="timelineContainer">
+            <!-- Dynamically Populated -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-wrapper">
+      <div>
+        © 2026 <strong>JobFit AI</strong>. Engineered with Precision.
+      </div>
+      <div class="footer-links">
+        <a href="#">Datenschutz</a>
+        <a href="#">Impressum</a>
+        <a href="#">API Documentation</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+     10. JAVASCRIPT LOGIC & ENGINE
+     ========================================================================== -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    /* ==========================================================================
+       JSON DATA MODEL (MOCK ENGINE / READY FOR N8N FETCH)
+       ========================================================================== */
+    const mockAnalysisResult = {
+      score: 87,
+      verdict: "Sehr gute Passung",
+      summaryTitle: "Ausgezeichnetes Fundament mit klarem Wachstumspfad",
+      summaryText: "Deine ausgeprägte Erfahrung im Lösungsorientierten Kundenkontakt bildet eine perfekte Grundlage für die angestrebte Rolle. Die identifizierten Lücken in Reporting-Tools lassen sich durch gezielte Praxis-Sessions innerhalb weniger Tage schließen.",
+      kpis: {
+        technical: "75%",
+        soft: "92%",
+        learning: "88%",
+        ats: "80%"
+      },
+      strengths: [
+        { title: "Kommunikation & Stakeholder Handling", desc: "Exzellente Fähigkeit, komplexe Sachverhalte verständlich zu vermitteln." },
+        { title: "Prozessorientiertes Denken", desc: "Erfahrung mit strukturierter Aufgabenlösung und CRM-Workflow-Tools." },
+        { title: "Agile Anpassungsfähigkeit", desc: "Hohe Lernbereitschaft für neue Software-Stacks und digitale Werkzeuge." }
+      ],
+      gaps: [
+        { name: "Power BI / Dashboarding", level: 40 },
+        { name: "Agiles Projektmanagement (Scrum/Kanban)", level: 60 },
+        { name: "Python Datenanalyse Grundlagen", level: 70 }
+      ],
+      atsKeywords: [
+        { name: "Kundenbetreuung", status: "success" },
+        { name: "Prozessoptimierung", status: "success" },
+        { name: "CRM-Systeme", status: "success" },
+        { name: "Projektmanagement", status: "warning" },
+        { name: "Stakeholder Handling", status: "warning" },
+        { name: "Power BI", status: "danger" },
+        { name: "SQL Querying", status: "danger" }
+      ],
+      interviewQuestions: [
+        {
+          question: "Wie gehen Sie mit technischen Barrieren um, wenn Sie noch keine Erfahrung mit Power BI haben?",
+          advice: "Betone deine schnelle Auffassungsgabe und verweise auf deine bisherigen Erfolge beim Einarbeiten in neue CRM-Systeme."
+        },
+        {
+          question: "Warum möchten Sie aus der Kundenbetreuung in den Projektbereich wechseln?",
+          advice: "Formuliere es als logische Weiterentwicklung: Du kennst die Kundenbedürfnisse direkt und willst Prozesse nun präventiv gestalten."
+        }
+      ],
+      timelineSteps: [
+        { period: "Heute", title: "Analyse auswerten & Fokus setzen", desc: "Identifiziere die Top-3 Keywords für dein Profil." },
+        { period: "Woche 1", title: "Power BI Dashboard Grundlagen", desc: "Einen 4-Stunden-Praxiskurs auf YouTube oder Udemy absolvieren." },
+        { period: "Woche 2", title: "Eigenes Mini-Projekt erstellen", desc: "Ein kurzes Test-Dashboard auf GitHub als Portfolio hochladen." },
+        { period: "Woche 3", title: "CV mit ATS-Keywords schärfen", desc: "Deine bisherige Erfahrung mit den neuen Fachbegriffen anreichern." },
+        { period: "Woche 4", title: "Bewerbung einreichen", desc: "Selbstbewusst mit nachgewiesenem Lernfortschritt bewerben." }
+      ]
+    };
+
+    /* ==========================================================================
+       SUBMISSION & SIMULATION HANDLER
+       ========================================================================== */
+    function handleAnalysisSubmit(event) {
+      event.preventDefault();
+      executeAnalysisPipeline();
+    }
+
+    function runDemo() {
+      document.getElementById('userSkills').value = "Quereinsteiger aus dem Kundenservice einer Krankenkasse. Ausgeprägte Kommunikationsfähigkeit, Erfahrung in der Bearbeitung komplexer Kundenanfragen, CRM-Kenntnisse und hohe Empathie. Erste Grundlagen in Python gelernt.";
+      document.getElementById('jobDescription').value = "Wir suchen eine Junior Projektassistenz / IT-Coordinator. Aufgaben: Unterstützung bei Softwareeinführungen, Anforderungsanalyse, Reporting mit Power BI und agile Projektkoordination.";
+      executeAnalysisPipeline();
+    }
+
+    function executeAnalysisPipeline() {
+      // Hide form & scroll to view
+      document.getElementById('analyzer').style.display = 'none';
+      const loadingSection = document.getElementById('loadingSection');
+      loadingSection.style.display = 'block';
+      loadingSection.scrollIntoView({ behavior: 'smooth' });
+
+      // Run Step Animation Progress
+      simulateAnalysisSteps(() => {
+        loadingSection.style.display = 'none';
+        renderResultsDashboard(mockAnalysisResult);
+      });
+    }
+
+    /* ==========================================================================
+       ANIMATED LOADING PIPELINE
+       ========================================================================== */
+    function simulateAnalysisSteps(onComplete) {
+      const progressBar = document.getElementById('progressBarFill');
+      const steps = [
+        { id: 'step1', delay: 400, percent: 20 },
+        { id: 'step2', delay: 1000, percent: 45 },
+        { id: 'step3', delay: 1600, percent: 70 },
+        { id: 'step4', delay: 2200, percent: 88 },
+        { id: 'step5', delay: 2800, percent: 100 }
+      ];
+
+      steps.forEach((step, index) => {
+        setTimeout(() => {
+          // Update Previous Step
+          if (index > 0) {
+            const prevElem = document.getElementById(steps[index - 1].id);
+            prevElem.classList.remove('active');
+            prevElem.classList.add('completed');
+            prevElem.querySelector('.step-icon-status').innerHTML = '✓';
+          }
+
+          // Active Current Step
+          const currElem = document.getElementById(step.id);
+          currElem.classList.add('active');
+          progressBar.style.width = step.percent + '%';
+
+          if (index === steps.length - 1) {
+            setTimeout(() => {
+              currElem.classList.remove('active');
+              currElem.classList.add('completed');
+              currElem.querySelector('.step-icon-status').innerHTML = '✓';
+              setTimeout(onComplete, 400);
+            }, 600);
+          }
+        }, step.delay);
+      });
+    }
+
+    /* ==========================================================================
+       RESULTS RENDER ENGINE
+       ========================================================================== */
+    function renderResultsDashboard(data) {
+      const resultsSection = document.getElementById('resultsSection');
+      resultsSection.style.display = 'block';
+      resultsSection.scrollIntoView({ behavior: 'smooth' });
+
+      // 1. Render Radial Score Gauge Animation
+      const scoreCircle = document.getElementById('radialCircle');
+      const scoreText = document.getElementById('scoreText');
+      document.getElementById('scoreVerdict').innerText = data.verdict;
+      document.getElementById('summaryTitle').innerText = data.summaryTitle;
+      document.getElementById('summaryText').innerText = data.summaryText;
+
+      // Animate Radial Score
+      const radius = scoreCircle.r.baseVal.value;
+      const circumference = 2 * Math.PI * radius;
+      const offset = circumference - (data.score / 100) * circumference;
+      
+      scoreCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+      setTimeout(() => {
+        scoreCircle.style.strokeDashoffset = offset;
+      }, 100);
+
+      // Animate Counter Text
+      animateCounter(scoreText, 0, data.score, 1200);
+
+      // 2. Render KPIs
+      document.getElementById('kpiTech').innerText = data.kpis.technical;
+      document.getElementById('kpiSoft').innerText = data.kpis.soft;
+      document.getElementById('kpiLearning').innerText = data.kpis.learning;
+      document.getElementById('kpiAts').innerText = data.kpis.ats;
+
+      // 3. Render Strengths
+      const strengthsContainer = document.getElementById('strengthsContainer');
+      strengthsContainer.innerHTML = data.strengths.map(s => `
+        <div class="strength-card">
+          <div class="strength-icon"><i data-lucide="check"></i></div>
+          <div>
+            <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;">${s.title}</h4>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">${s.desc}</p>
+          </div>
+        </div>
+      `).join('');
+
+      // 4. Render Skill Gap Progress Bars
+      const gapsContainer = document.getElementById('gapsContainer');
+      gapsContainer.innerHTML = data.gaps.map(g => `
+        <div class="gap-item">
+          <div class="gap-info">
+            <span>${g.name}</span>
+            <span class="mono" style="color: var(--cyan);">${g.level}%</span>
+          </div>
+          <div class="gap-bar-track">
+            <div class="gap-bar-fill" style="width: 0%" data-target="${g.level}"></div>
+          </div>
+        </div>
+      `).join('');
+
+      setTimeout(() => {
+        document.querySelectorAll('.gap-bar-fill').forEach(bar => {
+          bar.style.width = bar.getAttribute('data-target') + '%';
+        });
+      }, 200);
+
+      // 5. Render ATS Keywords
+      const atsContainer = document.getElementById('atsKeywordsContainer');
+      atsContainer.innerHTML = data.atsKeywords.map(k => {
+        let chipClass = 'chip-success';
+        let icon = 'check-circle';
+        if (k.status === 'warning') { chipClass = 'chip-warning'; icon = 'alert-circle'; }
+        if (k.status === 'danger') { chipClass = 'chip-danger'; icon = 'x-circle'; }
+        
+        return `
+          <div class="chip ${chipClass}">
+            <i data-lucide="${icon}" style="width: 14px; height: 14px;"></i>
+            ${k.name}
+          </div>
+        `;
+      }).join('');
+
+      // 6. Render Interview Questions
+      const interviewContainer = document.getElementById('interviewChatContainer');
+      interviewContainer.innerHTML = data.interviewQuestions.map(q => `
+        <div class="chat-bubble">
+          <div class="chat-avatar"><i data-lucide="bot" style="width: 20px;"></i></div>
+          <div class="chat-content">
+            <h4>${q.question}</h4>
+            <p>💡 <strong>Pro-Tipp:</strong> ${q.advice}</p>
+          </div>
+        </div>
+      `).join('');
+
+      // 7. Render Timeline
+      const timelineContainer = document.getElementById('timelineContainer');
+      timelineContainer.innerHTML = data.timelineSteps.map(t => `
+        <div class="timeline-step">
+          <div class="timeline-node"></div>
+          <span class="badge" style="margin-bottom: 6px; font-size: 0.7rem;">${t.period}</span>
+          <div class="timeline-title">${t.title}</div>
+          <div class="timeline-desc">${t.desc}</div>
+        </div>
+      `).join('');
+
+      // Re-initialize dynamic Lucide icons
+      lucide.createIcons();
+    }
+
+    /* Helper: Number Counter Animation */
+    function animateCounter(element, start, end, duration) {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        element.innerText = Math.floor(progress * (end - start) + start) + '%';
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
   </script>
 </body>
 </html>
