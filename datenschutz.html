@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datenschutzerklärung — JobFit AI</title>
+  
+  <!-- Premium Typography: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ==========================================================================
+       1. SYSTEM ARCHITECTURE & DESIGN TOKENS (Matching Imprint & Main Site)
+       ========================================================================== */
+    :root {
+      --bg-dark: #070B12;
+      --bg-surface: #0B111E;
+      --card-bg: rgba(15, 23, 42, 0.65);
+      --card-bg-solid: #0F172A;
+      --card-border: rgba(255, 255, 255, 0.08);
+      
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      
+      --cyan: #00F2FE;
+      --blue: #3B82F6;
+      --purple: #7F00FF;
+      
+      --gradient-brand: linear-gradient(135deg, var(--cyan) 0%, var(--blue) 50%, var(--purple) 100%);
+      --gradient-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+
+      --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.5);
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Ambient Canvas */
+    .ambient-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.3;
+    }
+
+    .glow-orb-1 {
+      top: -10%;
+      left: 20%;
+      width: 600px;
+      height: 600px;
+      background: var(--purple);
+    }
+
+    .glow-orb-2 {
+      bottom: 10%;
+      right: -5%;
+      width: 500px;
+      height: 500px;
+      background: var(--cyan);
+    }
+
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .gradient-text {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      background-image: var(--gradient-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ==========================================================================
+       2. HEADER
+       ========================================================================== */
+    header.nav-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 11, 18, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 16px 0;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-logo-img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.2));
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color var(--transition-fast);
+    }
+
+    .back-link:hover {
+      color: var(--cyan);
+    }
+
+    /* ==========================================================================
+       3. CONTENT
+       ========================================================================== */
+    .legal-page {
+      padding: 60px 0 100px;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      font-size: 1rem;
+    }
+
+    .legal-content {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .legal-section h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .legal-section h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 16px 0 8px;
+      color: var(--text-main);
+    }
+
+    .legal-section p, .legal-section ul, .legal-section address {
+      font-style: normal;
+      color: var(--text-muted);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .legal-section ul {
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+
+    .legal-section li {
+      margin-bottom: 6px;
+    }
+
+    .legal-section a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .legal-section a:hover {
+      text-decoration: underline;
+    }
+
+    .badge-zero-data {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      color: var(--cyan);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.06);
+      width: 100%;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 40px 0;
+      background: rgba(7, 11, 18, 0.9);
+    }
+
+    .footer-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      max-width: 1200px;
+    }
+
+    @media (max-width: 576px) {
+      .legal-content { padding: 24px; }
+      .footer-wrapper { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-canvas">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+  <div class="bg-grid"></div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="nav-header">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/jobfitai.png" alt="JobFit AI Logo" class="brand-logo-img" />
+        <span class="brand-title">JobFit <span class="gradient-text">AI</span></span>
+      </a>
+
+      <a href="index.html" class="back-link">
+        <i data-lucide="arrow-left" style="width: 18px; height: 18px;"></i> Zurück zur Hauptseite
+      </a>
+    </div>
+  </header>
+
+  <main class="legal-page">
+    <div class="container">
+      
+      <h1 class="page-title">Datenschutzerklärung</h1>
+      <p class="page-subtitle">Transparente Information über die Verarbeitung personenbezogener Daten gemäß DSGVO</p>
+
+      <div class="glass-card legal-content">
+
+        <!-- 1. Datenschutz auf einen Blick -->
+        <div class="legal-section">
+          <h3><i data-lucide="shield-check" style="width: 20px; height: 20px;"></i> 1. Datenschutz auf einen Blick</h3>
+          <h4>General Overview</h4>
+          <p>
+            Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit deinen personenbezogenen Daten passiert, wenn du unsere Website und die Anwendung <strong>JobFit AI</strong> besuchst. Personenbezogene Daten sind alle Daten, mit denen du persönlich identifiziert werden kannst.
+          </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 2. Verantwortliche Stelle -->
+        <div class="legal-section">
+          <h3><i data-lucide="building" style="width: 20px; height: 20px;"></i> 2. Verantwortliche Stelle</h3>
+          <p>Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:</p>
+          <address style="margin-top: 10px;">
+            <strong>[Vorname Nachname / Firmenname]</strong><br>
+            [Straße und Hausnummer]<br>
+            [PLZ und Ort]<br>
+            Deutschland<br><br>
+            E-Mail: <a href="mailto:[deine-email@domain.de]">[deine-email@domain.de]</a>
+          </address>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 3. Datenverarbeitung bei JobFit AI (Zero-Data Architecture) -->
+        <div class="legal-section">
+          <div class="badge-zero-data">
+            <i data-lucide="cpu" style="width: 14px; height: 14px;"></i> Zero-Data Storage Architecture
+          </div>
+          <h3><i data-lucide="lock" style="width: 20px; height: 20px;"></i> 3. Verarbeitung von Bewerbungsdaten & KI-Anfragen</h3>
+          <p>
+            Die Anwendungslogik von <strong>JobFit AI</strong> basiert auf dem Grundsatz der Datenminimierung:
+          </p>
+          <ul>
+            <li><strong>Verarbeitete Daten:</strong> Wenn du Stellenanzeigen-Texte, Anforderungen oder Lebenslaufdaten eingibst, werden diese ausschließlich zur Generierung der Match-Analyse und Anschreiben genutzt.</li>
+            <li><strong>Keine dauerhafte Speicherung:</strong> Deine eingegebenen Texte und erzeugten Dokumente werden zu keinem Zeitpunkt in einer Datenbank oder auf Webservern dauerhaft gespeichert.</li>
+            <li><strong>Verarbeitung per Webhook / KI:</strong> Die Datenverarbeitung erfolgt über gesicherte Schnittstellen (n8n Automatisierungs-Workflow) in Echtzeit. Nach Übermittlung der Ergebnisse an deinen Browser werden die Daten im flüchtigen Arbeitsspeicher umgehend gelöscht.</li>
+            <li><strong>Kein Training von KI-Modellen:</strong> Deine eingegebenen Inhalte werden nicht verwendet, um öffentliche KI-Modelle zu trainieren.</li>
+          </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 4. Webhosting & Logfiles -->
+        <div class="legal-section">
+          <h3><i data-lucide="server" style="width: 20px; height: 20px;"></i> 4. Hosting & Server-Logfiles</h3>
+          <p>
+            Diese Website wird extern gehostet bei <strong>[z. B. Netlify / Ionos / GitHub Pages]</strong>. Die personenbezogenen Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosts gespeichert.
+          </p>
+          <p style="margin-top: 10px;">
+            Der Provider der Seiten erhebt und speichert automatisch Informationen in sogenannten Server-Log-Dateien, die dein Browser automatisch an uns übermittelt. Dies sind:
+          </p>
+          <ul>
+            <li>Browsertyp und Browserversion</li>
+            <li>Verwendetes Betriebssystem</li>
+            <li>Referrer URL</li>
+            <li>Hostname des zugreifenden Rechners</li>
+            <li>Uhrzeit der Serveranfrage</li>
+            <li>IP-Adresse (in anonymisierter Form)</li>
+          </ul>
+          <p style="margin-top: 10px;">
+            Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse an der technisch fehlerfreien Darstellung und der Optimierung seiner Website.
+          </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 5. Ihre Rechte -->
+        <div class="legal-section">
+          <h3><i data-lucide="user-check" style="width: 20px; height: 20px;"></i> 5. Deine Rechte als betroffene Person</h3>
+          <p>
+            Du hast im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das Recht auf:
+          </p>
+          <ul>
+            <li><strong>Auskunft (Art. 15 DSGVO):</strong> Kostenlose Auskunft über deine gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung.</li>
+            <li><strong>Berichtigung (Art. 16 DSGVO):</strong> Berichtigung unrichtiger oder Vervollständigung deiner bei uns gespeicherten Daten.</li>
+            <li><strong>Löschung (Art. 17 DSGVO):</strong> Löschung deiner bei uns gespeicherten personenbezogenen Daten, soweit nicht die Verarbeitung zur Ausübung des Rechts auf freie Meinungsäußerung und Information oder zur Erfüllung einer rechtlichen Verpflichtung erforderlich ist.</li>
+            <li><strong>Widerspruchsrecht (Art. 21 DSGVO):</strong> Wenn die Datenverarbeitung auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO erfolgt, hast du das Recht, jederzeit Widerspruch gegen die Verarbeitung einzulegen.</li>
+          </ul>
+          <p style="margin-top: 12px;">
+            Hierzu sowie zu weiteren Fragen zum Thema personenbezogene Daten kannst du dich jederzeit unter der im Impressum angegebenen Adresse an uns wenden. Zudem steht dir ein Beschwerderecht bei der zuständigen Datenschutz-Aufsichtsbehörde zu.
+          </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 6. Verschlüsselung -->
+        <div class="legal-section">
+          <h3><i data-lucide="key-round" style="width: 20px; height: 20px;"></i> 6. SSL- bzw. TLS-Verschlüsselung</h3>
+          <p>
+            Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennst du daran, dass die Adresszeile des Browsers von „http://“ auf „https://“ wechselt und an dem Schloss-Symbol in deiner Browserzeile.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-wrapper">
+      <div>
+        © 2026 <strong>JobFit AI</strong>. Powered by n8n & Zero-Data Architecture.
+      </div>
+      <div>
+        <a href="index.html" style="color: var(--text-dim); text-decoration: none;">Zurück zur App</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
