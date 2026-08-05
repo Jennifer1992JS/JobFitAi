@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impressum — JobFit AI</title>
+  
+  <!-- Premium Typography: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ==========================================================================
+       1. SYSTEM ARCHITECTURE & DESIGN TOKENS (Matching Main Site)
+       ========================================================================== */
+    :root {
+      --bg-dark: #070B12;
+      --bg-surface: #0B111E;
+      --card-bg: rgba(15, 23, 42, 0.65);
+      --card-bg-solid: #0F172A;
+      --card-border: rgba(255, 255, 255, 0.08);
+      
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      
+      --cyan: #00F2FE;
+      --blue: #3B82F6;
+      --purple: #7F00FF;
+      
+      --gradient-brand: linear-gradient(135deg, var(--cyan) 0%, var(--blue) 50%, var(--purple) 100%);
+      --gradient-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+
+      --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.5);
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Ambient Canvas */
+    .ambient-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.3;
+    }
+
+    .glow-orb-1 {
+      top: -10%;
+      left: 20%;
+      width: 600px;
+      height: 600px;
+      background: var(--purple);
+    }
+
+    .glow-orb-2 {
+      bottom: 10%;
+      right: -5%;
+      width: 500px;
+      height: 500px;
+      background: var(--cyan);
+    }
+
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .gradient-text {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      background-image: var(--gradient-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ==========================================================================
+       2. HEADER
+       ========================================================================== */
+    header.nav-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 11, 18, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 16px 0;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-logo-img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.2));
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color var(--transition-fast);
+    }
+
+    .back-link:hover {
+      color: var(--cyan);
+    }
+
+    /* ==========================================================================
+       3. IMPRESSUM CONTENT
+       ========================================================================== */
+    .legal-page {
+      padding: 60px 0 100px;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      font-size: 1rem;
+    }
+
+    .legal-content {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .legal-section h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .legal-section p, .legal-section address {
+      font-style: normal;
+      color: var(--text-muted);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .legal-section a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .legal-section a:hover {
+      text-decoration: underline;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.06);
+      width: 100%;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 40px 0;
+      background: rgba(7, 11, 18, 0.9);
+    }
+
+    .footer-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      max-width: 1200px;
+    }
+
+    @media (max-width: 576px) {
+      .legal-content { padding: 24px; }
+      .footer-wrapper { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-canvas">
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+  </div>
+  <div class="bg-grid"></div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="nav-header">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/jobfitai.png" alt="JobFit AI Logo" class="brand-logo-img" />
+        <span class="brand-title">JobFit <span class="gradient-text">AI</span></span>
+      </a>
+
+      <a href="index.html" class="back-link">
+        <i data-lucide="arrow-left" style="width: 18px; height: 18px;"></i> Zurück zur Hauptseite
+      </a>
+    </div>
+  </header>
+
+  <main class="legal-page">
+    <div class="container">
+      
+      <h1 class="page-title">Impressum</h1>
+      <p class="page-subtitle">Angaben gemäß § 5 DDG (Digitale-Dienste-Gesetz)</p>
+
+      <div class="glass-card legal-content">
+
+        <!-- Anbieterkennzeichnung -->
+        <div class="legal-section">
+          <h3><i data-lucide="user" style="width: 20px; height: 20px;"></i> Angaben zum Anbieter</h3>
+          <address>
+            <strong>Jennifer Stoll</strong><br>
+            Mohsdorfer Straße 6<br>
+            Burgstädt<br>
+            Deutschland
+          </address>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Kontakt -->
+        <div class="legal-section">
+          <h3><i data-lucide="mail" style="width: 20px; height: 20px;"></i> Kontaktmöglichkeiten</h3>
+          <p>
+            <strong>E-Mail:</strong> <a href="mailto:[deine-email@domain.de]">[deine-email@domain.de]</a><br>
+            <strong>Telefon:</strong> [Telefonnummer]
+          </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Redaktionell Verantwortliche/r -->
+        <div class="legal-section">
+          <h3><i data-lucide="file-text" style="width: 20px; height: 20px;"></i> Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h3>
+          <address>
+            <strong>[Vorname Nachname]</strong><br>
+            [Straße und Hausnummer]<br>
+            [PLZ und Ort]
+          </address>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- EU-Streitschlichtung -->
+        <div class="legal-section">
+          <h3><i data-lucide="scale" style="width: 20px; height: 20px;"></i> EU-Streitschlichtung & Verbraucherstreitbeilegung</h3>
+          <p>
+            Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: 
+            <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>.<br>
+            Unsere E-Mail-Adresse findest du oben im Impressum.
+          </p>
+          <p style="margin-top: 10px;">
+            Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+          </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Haftung für Inhalte -->
+        <div class="legal-section">
+          <h3><i data-lucide="shield-alert" style="width: 20px; height: 20px;"></i> Haftung für Inhalte</h3>
+          <p>
+            Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+          </p>
+          <p style="margin-top: 10px;">
+            Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+          </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Urheberrecht -->
+        <div class="legal-section">
+          <h3><i data-lucide="copyright" style="width: 20px; height: 20px;"></i> Urheberrecht</h3>
+          <p>
+            Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-wrapper">
+      <div>
+        © 2026 <strong>JobFit AI</strong>. Powered by n8n & Zero-Data Architecture.
+      </div>
+      <div>
+        <a href="index.html" style="color: var(--text-dim); text-decoration: none;">Zurück zur App</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
