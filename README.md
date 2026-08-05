@@ -43,3 +43,41 @@
                       │
                       ▼
         [ Output an Frontend Browser ]
+
+
+Der Nutzer gibt die Stellenbeschreibung und eigene Daten im Frontend ein.
+
+    Das Formular sendet die Anfrage per HTTPS-Post an einen n8n-Webhook.
+
+    n8n verarbeitet die Prompt-Logik und gibt das Ergebnis in Echtzeit zurück.
+
+    Nach der Antwort werden keine Nutzerdaten auf dem Server gespeichert.
+
+🚀 Quickstart / Lokale Einrichtung
+
+    Repository klonen:
+    Bash
+
+    git clone [https://github.com/dein-username/jobfit-ai.git](https://github.com/dein-username/jobfit-ai.git)
+    cd jobfit-ai
+
+    Dateien öffnen:
+    Öffne die index.html direkt in deinem Browser oder nutze eine Live-Server-Erweiterung (z. B. VS Code Live Server).
+
+    n8n Webhook anpassen:
+    Trage in der index.html im <script>-Bereich die URL deines eigenen n8n-Webhooks ein.
+
+📂 Projektstruktur
+Plaintext
+
+├── assets/
+│   └── jobfitai.png       # Logo & Grafiken
+├── index.html             # Hauptanwendung & Dashboard
+├── impressum.html         # Impressum (§ 5 DDG)
+├── datenschutz.html       # Datenschutzerklärung (DSGVO)
+└── README.md              # Dokumentation
+
+⚖️ Lizenz & Rechtliches
+
+Dieses Projekt wurde als modernes Show-Projekt für Automatisierung und KI-Integration entwickelt.
+Sämtliche rechtlichen Angaben sind in impressum.html und datenschutz.html hinterlegt.
