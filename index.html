@@ -448,19 +448,21 @@
         <form id="jobfit-form">
           <div class="form-grid">
             
-            <div class="input-group">
-              <label class="input-label" for="job-description">
-                <i data-lucide="briefcase" style="width: 18px; height: 18px;"></i> Stellenbeschreibung / Anforderungen
-              </label>
-              <textarea id="job-description" class="custom-textarea" placeholder="Kopiere hier den Text der Stellenanzeige hinein (Aufgaben, Anforderungen, Qualifikationen)..." required></textarea>
-            </div>
+           <div class="input-group">
+  <label class="input-label" for="job-description">
+    <i data-lucide="briefcase" style="width: 18px; height: 18px;"></i> Stellenbeschreibung / Anforderungen
+  </label>
+  <textarea id="job-description" class="custom-textarea" maxlength="6000" placeholder="Kopiere hier den Text der Stellenanzeige hinein..." required></textarea>
+  <div class="char-counter"><span id="job-count">0</span> / 6000 Zeichen</div>
+</div>
 
-            <div class="input-group">
-              <label class="input-label" for="user-profile">
-                <i data-lucide="file-user" style="width: 18px; height: 18px;"></i> Dein Profil / Lebenslauf
-              </label>
-              <textarea id="user-profile" class="custom-textarea" placeholder="Füge deinen Lebenslauf, wichtige Skills, Erfahrung und Werdegang ein..." required></textarea>
-            </div>
+<div class="input-group">
+  <label class="input-label" for="user-profile">
+    <i data-lucide="file-user" style="width: 18px; height: 18px;"></i> Dein Profil / Lebenslauf
+  </label>
+  <textarea id="user-profile" class="custom-textarea" maxlength="6000" placeholder="Füge deinen Lebenslauf, wichtige Skills, Erfahrung und Werdegang ein..." required></textarea>
+  <div class="char-counter"><span id="profile-count">0</span> / 6000 Zeichen</div>
+</div>
 
           </div>
 
@@ -473,7 +475,7 @@
         <div id="output-container" class="output-container">
           <div class="output-header">
             <span class="output-title">
-              <i data-lucide="check-circle-2" style="width: 22px; height: 22px;"></i> Ergenerte Analyse & Anschreiben
+              <i data-lucide="check-circle-2" style="width: 22px; height: 22px;"></i> Generierte Analyse & Anschreiben
             </span>
             <button onclick="copyResult()" class="nav-link" style="background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:6px;">
               <i data-lucide="copy" style="width: 16px; height: 16px;"></i> Kopieren
