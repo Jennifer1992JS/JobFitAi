@@ -402,6 +402,14 @@
       .app-workspace { padding: 24px; }
       .footer-wrapper { flex-direction: column; gap: 16px; text-align: center; }
     }
+    /* Zeichenzähler unter den Textareas */
+.char-counter {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  text-align: right;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+}
   </style>
 </head>
 <body>
@@ -541,6 +549,19 @@
       navigator.clipboard.writeText(text);
       alert('Ergebnis in die Zwischenablage kopiert!');
     }
+    // Live-Zeichenzähler Aktualisierung
+const jobInput = document.getElementById('job-description');
+const profileInput = document.getElementById('user-profile');
+const jobCount = document.getElementById('job-count');
+const profileCount = document.getElementById('profile-count');
+
+jobInput.addEventListener('input', () => {
+  jobCount.textContent = jobInput.value.length;
+});
+
+profileInput.addEventListener('input', () => {
+  profileCount.textContent = profileInput.value.length;
+});
   </script>
 </body>
 </html>
