@@ -312,9 +312,9 @@
         <div class="legal-section">
           <h3><i data-lucide="user" style="width: 20px; height: 20px;"></i> Angaben zum Anbieter</h3>
           <address>
-            <strong>Jennifer Stoll</strong><br>
-            Mohsdorfer Straße 6<br>
-            Burgstädt<br>
+            <strong>[Vorname Nachname / Firmenname]</strong><br>
+            [Straße und Hausnummer]<br>
+            [PLZ und Ort]<br>
             Deutschland
           </address>
         </div>
@@ -326,7 +326,7 @@
           <h3><i data-lucide="mail" style="width: 20px; height: 20px;"></i> Kontaktmöglichkeiten</h3>
           <p>
             <strong>E-Mail:</strong> <a href="mailto:[deine-email@domain.de]">[deine-email@domain.de]</a><br>
-            <strong>Telefon:</strong> [Telefonnummer]
+            <strong>Telefon:</strong> [Deine Telefonnummer]
           </p>
         </div>
 
