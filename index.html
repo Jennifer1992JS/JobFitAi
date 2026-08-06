@@ -420,7 +420,7 @@
     // -------------------------------------------------------------
     const WEBHOOK_URL = 'DEINE_N8N_WEBHOOK_URL';
 
-    // -------------------------------------------------------------
+   // -------------------------------------------------------------
     // DOM-ELEMENTE & EVENTS
     // -------------------------------------------------------------
     const form = document.getElementById('jobfit-form');
@@ -459,7 +459,8 @@
       };
 
       try {
-        const response = await fetch(WEBHOOK_URL, {
+        // Relativer Aufruf an die eigene Middleware/Serverless Function
+        const response = await fetch('/api/generate', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -480,7 +481,7 @@
 
       } catch (error) {
         console.error('Fehler:', error);
-        alert('Es gab einen Fehler bei der Erstellung. Bitte überprüfe die Konfiguration!');
+        alert('Es gab einen Fehler bei der Übertragung. Bitte versuche es später noch einmal.');
       } finally {
         // UI State zurücksetzen
         submitBtn.disabled = false;
