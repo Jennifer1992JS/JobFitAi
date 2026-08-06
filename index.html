@@ -442,6 +442,14 @@
       font-size: 0.8rem;
     }
 
+    .spin {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
     @media (max-width: 768px) {
       .form-grid { grid-template-columns: 1fr; }
       .app-workspace { padding: 24px; }
@@ -599,16 +607,40 @@
       submitBtn.innerHTML = `<i data-lucide="loader-2" class="spin" style="width: 20px; height: 20px;"></i> Verarbeite Daten via n8n...`;
       lucide.createIcons();
 
-      // Simulated Webhook Request / Processing delay
-      setTimeout(() => {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = `<i data-lucide="sparkles" style="width: 20px; height: 20px;"></i> Jetzt analysieren & Anschreiben generieren`;
-        lucide.createIcons();
+      try {
+        // ECHTER N8N WEBHOOK AUFRUF WITH HEADER AUTH
+        const response = await fetch('https://DEINE-N8N-DOMAIN.DE/webhook/DEINE-WEBHOOK-ID', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-KEY': 'DEIN_GEHEIMES_PASSWORT' // <-- Hier das Passwort eintragen, das du in n8n eingestellt hast
+          },
+          body: JSON.stringify({
+            jobDescription: jobInput.value,
+            userProfile: profileInput.value
+          })
+        });
 
-        outputText.innerText = `[JOB-FIT MATCH: 94%]\n\nSehr geehrte Damen und Herren,\n\nmit großer Begeisterung habe ich Ihre Ausschreibung gelesen. Durch meine fundierte Erfahrung in der Strukturierung komplexer Workflows und modernen Tech-Stacks passe ich hervorragend zu Ihrem Team...`;
+        if (!response.ok) {
+          throw new Error('Fehler bei der Übertragung');
+        }
+
+        const data = await response.json();
+
+        // Ergebnis aus n8n anzeigen
+        outputText.innerText = data.result || 'Kein Ergebnis von n8n zurückerhalten.';
         outputContainer.style.display = 'block';
         outputContainer.scrollIntoView({ behavior: 'smooth' });
-      }, 1500);
+
+      } catch (error) {
+        console.error('Fehler:', error);
+        alert('Es gab einen Fehler bei der Verbindung zu n8n. Bitte versuche es später noch einmal.');
+      } finally {
+        // UI State zurücksetzen
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<i data-lucide="sparkles" style="width: 20px; height: 20px;"></i> jetzt analysieren & Anschreiben generieren`;
+        lucide.createIcons();
+      }
     });
 
     // Ergebnis kopieren
