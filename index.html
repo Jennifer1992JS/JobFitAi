@@ -30,7 +30,6 @@
 
     body {
       background-color: #0a0414;
-      /* Geometrische Formen und Cyberpunk-Grid direkt als CSS-Hintergrund */
       background-image: 
         radial-gradient(circle at 20% 15%, rgba(192, 132, 252, 0.15) 0%, transparent 45%),
         radial-gradient(circle at 80% 85%, rgba(236, 72, 153, 0.12) 0%, transparent 45%),
@@ -60,18 +59,17 @@
       padding: 48px 0 32px 0;
     }
 
-    /* Logo & Name aus assets/jobfitai.png */
     .hero-logo-container {
       display: flex;
       justify-content: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .hero-logo {
-      max-height: 90px;
+      max-height: 100px;
       width: auto;
       object-fit: contain;
-      filter: drop-shadow(0 0 24px rgba(192, 132, 252, 0.35));
+      filter: drop-shadow(0 0 24px rgba(192, 132, 252, 0.4));
     }
 
     .badge-pill {
@@ -369,14 +367,13 @@
 </head>
 <body>
 
-  <!-- MAIN CONTENT -->
   <main class="container">
     
     <!-- HERO SECTION -->
     <section class="hero">
-      <!-- Korrekter Pfad zur Grafik aus dem assets-Ordner: jobfitai.png -->
+      <!-- Exaktes Logo aus assets/jobfitai.png -->
       <div class="hero-logo-container">
-        <img src="assets/jobfitai.png" alt="JobFit AI Logo" class="hero-logo">
+        <img src="assets/jobfitai.png" alt="JobFitAI Logo" class="hero-logo">
       </div>
 
       <div class="badge-pill">
@@ -454,7 +451,7 @@
   <footer>
     <div class="container footer-wrapper">
       <div class="footer-info">
-        <div>&copy; 2026 <strong>JobFit AI</strong>. Idee &amp; Konzept von Jennifer Stoll.</div>
+        <div>&copy; 2026 <strong>JobFitAI</strong>. Idee &amp; Konzept von Jennifer Stoll.</div>
         <div style="font-size: 0.78rem; color: var(--text-dim); margin-top: 4px;">
           <i data-lucide="sparkles" style="width: 12px; height: 12px; display: inline-block; vertical-align: middle; color: var(--purple-bright);"></i> 
           Texte, Bilder &amp; Grafiken auf dieser Seite sind KI-generiert (Transparenzhinweis gem. Art. 50 EU AI Act).
@@ -470,10 +467,8 @@
   </footer>
 
   <script>
-    // Lucide Icons initialisieren
     lucide.createIcons();
 
-    // Elements
     const form = document.getElementById('jobfit-form');
     const submitBtn = document.getElementById('submit-btn');
     const outputContainer = document.getElementById('output-container');
@@ -484,7 +479,6 @@
     const jobCount = document.getElementById('job-count');
     const profileCount = document.getElementById('profile-count');
 
-    // Live-Zeichenzähler
     jobInput.addEventListener('input', () => {
       jobCount.textContent = jobInput.value.length;
     });
@@ -493,11 +487,9 @@
       profileCount.textContent = profileInput.value.length;
     });
 
-    // Formular-Submit Handling
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // UI State: Loading
       submitBtn.disabled = true;
       submitBtn.innerHTML = `<i data-lucide="loader-2" class="spin" style="width: 20px; height: 20px;"></i> Verarbeite Daten via n8n...`;
       lucide.createIcons();
@@ -534,7 +526,6 @@
       }
     });
 
-    // Ergebnis kopieren
     function copyResult() {
       const text = document.getElementById('output-text').innerText;
       navigator.clipboard.writeText(text);
