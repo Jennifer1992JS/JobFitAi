@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JobFitAI – Stellenanzeigen mappen & Anschreiben generieren</title>
   
-  <!-- Lucide Icons Library -->
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -17,8 +17,8 @@
       --text-main: #f8fafc;
       --text-dim: #cbd5e1;
       --text-muted: #94a3b8;
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
       --transition-fast: 0.2s ease;
     }
 
@@ -31,19 +31,17 @@
     body {
       background-color: #0a0414;
       background-image: 
-        radial-gradient(circle at 20% 15%, rgba(192, 132, 252, 0.15) 0%, transparent 45%),
-        radial-gradient(circle at 80% 85%, rgba(236, 72, 153, 0.12) 0%, transparent 45%),
-        linear-gradient(to right, rgba(192, 132, 252, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(192, 132, 252, 0.03) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+        radial-gradient(circle at 15% 20%, rgba(192, 132, 252, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(236, 72, 153, 0.12) 0%, transparent 40%),
+        linear-gradient(to right, rgba(192, 132, 252, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(192, 132, 252, 0.025) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
       background-attachment: fixed;
       color: var(--text-main);
       font-family: var(--font-sans);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      position: relative;
-      overflow-x: hidden;
     }
 
     .container {
@@ -53,23 +51,47 @@
       padding: 0 24px;
     }
 
+    /* TOP HEADER BAR (EXAKT WIE AUF DER IMPRESSUM-SEITE) */
+    .site-header {
+      padding: 24px 0;
+    }
+
+    .header-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .brand-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 8px 14px;
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      height: 24px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
     /* HERO SECTION */
     .hero {
       text-align: center;
-      padding: 48px 0 32px 0;
-    }
-
-    .hero-logo-container {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .hero-logo {
-      max-height: 100px;
-      width: auto;
-      object-fit: contain;
-      filter: drop-shadow(0 0 24px rgba(192, 132, 252, 0.4));
+      padding: 24px 0 32px 0;
     }
 
     .badge-pill {
@@ -109,7 +131,7 @@
       line-height: 1.6;
     }
 
-    /* MAIN WORKSPACE CARD */
+    /* WORKSPACE */
     .app-workspace {
       margin-bottom: 60px;
     }
@@ -120,7 +142,7 @@
       border-radius: 20px;
       padding: 32px;
       backdrop-filter: blur(18px);
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
     }
 
     .form-grid {
@@ -173,7 +195,7 @@
       font-family: var(--font-mono);
     }
 
-    /* KO-FI BANNER */
+    /* KO-FI */
     .kofi-container {
       display: flex;
       align-items: center;
@@ -183,7 +205,7 @@
       border: 1px solid rgba(236, 72, 153, 0.22);
       border-radius: 12px;
       padding: 10px 16px;
-      margin: 20px 0 20px 0;
+      margin: 20px 0;
       flex-wrap: wrap;
     }
 
@@ -214,11 +236,9 @@
     .btn-kofi:hover {
       background: rgba(236, 72, 153, 0.3);
       color: #FFF;
-      transform: translateY(-1px);
-      box-shadow: 0 0 14px rgba(236, 72, 153, 0.3);
     }
 
-    /* SUBMIT BUTTON */
+    /* BUTTON */
     .btn-submit {
       width: 100%;
       padding: 16px;
@@ -233,13 +253,12 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
       box-shadow: 0 4px 22px rgba(192, 132, 252, 0.3);
+      transition: transform var(--transition-fast);
     }
 
     .btn-submit:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 28px rgba(192, 132, 252, 0.45);
     }
 
     .btn-submit:disabled {
@@ -248,16 +267,10 @@
       transform: none;
     }
 
-    /* RESULT AREA */
+    /* OUTPUT */
     .output-container {
       margin-top: 32px;
       display: none;
-      animation: fadeIn 0.4s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .output-header {
@@ -284,14 +297,6 @@
       border-radius: 8px;
       font-size: 0.85rem;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: background var(--transition-fast);
-    }
-
-    .btn-copy:hover {
-      background: rgba(255, 255, 255, 0.1);
     }
 
     .output-box {
@@ -312,7 +317,6 @@
       padding: 24px 0;
       border-top: 1px solid var(--card-border);
       background: rgba(10, 4, 20, 0.85);
-      backdrop-filter: blur(12px);
       font-size: 0.85rem;
       color: var(--text-dim);
     }
@@ -334,18 +338,10 @@
     .footer-link {
       color: var(--text-muted);
       text-decoration: none;
-      font-weight: 500;
-      transition: color var(--transition-fast);
     }
 
     .footer-link:hover {
       color: var(--purple-bright);
-      text-decoration: underline;
-    }
-
-    .footer-divider {
-      color: rgba(255, 255, 255, 0.2);
-      font-size: 0.8rem;
     }
 
     .spin {
@@ -358,24 +354,26 @@
 
     @media (max-width: 768px) {
       .form-grid { grid-template-columns: 1fr; }
-      .app-workspace { padding: 24px; }
-      .footer-wrapper { flex-direction: column; gap: 16px; text-align: center; }
-      .hero-title { font-size: 2.1rem; }
-      .kofi-container { flex-direction: column; text-align: center; }
+      .footer-wrapper { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
+  <!-- TOP HEADER MIT LOGO + NAME (ENTSPRICHT GRAFIK_4.JPG) -->
+  <header class="site-header">
+    <div class="container header-wrapper">
+      <a href="index.html" class="brand-box">
+        <img src="assets/jobfitai.png" alt="JobFitAI Logo" class="brand-logo">
+        <span class="brand-name">JobFitAI</span>
+      </a>
+    </div>
+  </header>
+
   <main class="container">
     
     <!-- HERO SECTION -->
     <section class="hero">
-      <!-- Exaktes Logo aus assets/jobfitai.png -->
-      <div class="hero-logo-container">
-        <img src="assets/jobfitai.png" alt="JobFitAI Logo" class="hero-logo">
-      </div>
-
       <div class="badge-pill">
         <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i> Powered by n8n &amp; Zero Data Architecture
       </div>
@@ -390,7 +388,7 @@
       </p>
     </section>
 
-    <!-- APPLICATION WORKSPACE CARD -->
+    <!-- WORKSPACE -->
     <div class="glass-card app-workspace">
       <form id="jobfit-form">
         
@@ -399,7 +397,7 @@
             <label class="input-label" for="job-description">
               <i data-lucide="briefcase" style="width: 18px; height: 18px;"></i> Stellenbeschreibung / Anforderungen
             </label>
-            <textarea id="job-description" class="custom-textarea" maxlength="6000" placeholder="Kopiere hier den Text der Stellenanzeige hinein (Aufgaben, Anforderungen, Qualifikationen)..." required></textarea>
+            <textarea id="job-description" class="custom-textarea" maxlength="6000" placeholder="Kopiere hier den Text der Stellenanzeige hinein..." required></textarea>
             <div class="char-counter"><span id="job-count">0</span> / 6000 Zeichen</div>
           </div>
 
@@ -407,16 +405,16 @@
             <label class="input-label" for="user-profile">
               <i data-lucide="file-user" style="width: 18px; height: 18px;"></i> Dein Profil / Lebenslauf
             </label>
-            <textarea id="user-profile" class="custom-textarea" maxlength="6000" placeholder="Füge deinen Lebenslauf, wichtige Skills, Erfahrung und Werdegang ein..." required></textarea>
+            <textarea id="user-profile" class="custom-textarea" maxlength="6000" placeholder="Füge deinen Lebenslauf oder wichtige Skills ein..." required></textarea>
             <div class="char-counter"><span id="profile-count">0</span> / 6000 Zeichen</div>
           </div>
         </div>
 
-        <!-- KO-FI SPENDEN BANNER -->
+        <!-- KO-FI BANNER -->
         <div class="kofi-container">
           <div class="kofi-text">
             <i data-lucide="coffee" style="width: 16px; height: 16px; color: #FF5F5F;"></i>
-            <span>Gefällt dir das kostenlose Tool? Unterstütze die Serverkosten mit einem Kaffee:</span>
+            <span>Gefällt dir das Tool? Unterstütze die Serverkosten:</span>
           </div>
           <a href="https://ko-fi.com/jenniferstoll" target="_blank" rel="noopener noreferrer" class="btn-kofi">
             <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
@@ -430,7 +428,7 @@
 
       </form>
 
-      <!-- RESULT AREA -->
+      <!-- RESULT -->
       <div id="output-container" class="output-container">
         <div class="output-header">
           <span class="output-title">
@@ -454,13 +452,13 @@
         <div>&copy; 2026 <strong>JobFitAI</strong>. Idee &amp; Konzept von Jennifer Stoll.</div>
         <div style="font-size: 0.78rem; color: var(--text-dim); margin-top: 4px;">
           <i data-lucide="sparkles" style="width: 12px; height: 12px; display: inline-block; vertical-align: middle; color: var(--purple-bright);"></i> 
-          Texte, Bilder &amp; Grafiken auf dieser Seite sind KI-generiert (Transparenzhinweis gem. Art. 50 EU AI Act).
+          Texte, Bilder &amp; Grafiken sind KI-generiert (gem. Art. 50 EU AI Act).
         </div>
       </div>
       
       <nav class="footer-nav">
         <a href="impressum.html" class="footer-link">Impressum</a>
-        <span class="footer-divider">•</span>
+        <span>•</span>
         <a href="datenschutz.html" class="footer-link">Datenschutz</a>
       </nav>
     </div>
@@ -473,23 +471,16 @@
     const submitBtn = document.getElementById('submit-btn');
     const outputContainer = document.getElementById('output-container');
     const outputText = document.getElementById('output-text');
-
     const jobInput = document.getElementById('job-description');
     const profileInput = document.getElementById('user-profile');
     const jobCount = document.getElementById('job-count');
     const profileCount = document.getElementById('profile-count');
 
-    jobInput.addEventListener('input', () => {
-      jobCount.textContent = jobInput.value.length;
-    });
-
-    profileInput.addEventListener('input', () => {
-      profileCount.textContent = profileInput.value.length;
-    });
+    jobInput.addEventListener('input', () => jobCount.textContent = jobInput.value.length);
+    profileInput.addEventListener('input', () => profileCount.textContent = profileInput.value.length);
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
       submitBtn.disabled = true;
       submitBtn.innerHTML = `<i data-lucide="loader-2" class="spin" style="width: 20px; height: 20px;"></i> Verarbeite Daten via n8n...`;
       lucide.createIcons();
@@ -497,28 +488,23 @@
       try {
         const response = await fetch('https://31.70.111.246.sslip.io/api.php', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             jobDescription: jobInput.value,
             userProfile: profileInput.value
           })
         });
 
-        if (!response.ok) {
-          throw new Error('Fehler bei der Übertragung');
-        }
+        if (!response.ok) throw new Error('Übertragungsfehler');
 
         const data = await response.json();
-
-        outputText.innerText = data.result || 'Kein Ergebnis von n8n zurückerhalten.';
+        outputText.innerText = data.result || 'Kein Ergebnis erhalten.';
         outputContainer.style.display = 'block';
         outputContainer.scrollIntoView({ behavior: 'smooth' });
 
       } catch (error) {
         console.error('Fehler:', error);
-        alert('Es gab einen Fehler bei der Verbindung zu n8n. Bitte versuche es später noch einmal.');
+        alert('Verbindungsfehler zu n8n.');
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = `<i data-lucide="sparkles" style="width: 20px; height: 20px;"></i> jetzt analysieren &amp; Anschreiben generieren`;
@@ -527,9 +513,8 @@
     });
 
     function copyResult() {
-      const text = document.getElementById('output-text').innerText;
-      navigator.clipboard.writeText(text);
-      alert('Ergebnis in die Zwischenablage kopiert!');
+      navigator.clipboard.writeText(outputText.innerText);
+      alert('In Zwischenablage kopiert!');
     }
   </script>
 </body>
