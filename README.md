@@ -1,26 +1,25 @@
-# 🚀 JobFit AI — Smart Job Application Assistant
+Markdown
 
-**JobFit AI** ist eine moderne, webbasierte Anwendung zur automatisierten Analyse von Stellenanzeigen und Generierung maßgeschneiderter Anschreiben mithilfe von KI und n8n-Workflows.
+# JobFitAI 🚀
 
-![Design Preview](assets/jobfitai.png) *(Optional: Screenshot deines UIs)*
-
----
+✨ **JobFitAI** ist eine datenschutzfreundliche, KI-gestützte Web-Anwendung zur Analyse von Stellenanzeigen und Erstellung passgenauer Bewerbungsunterlagen.
 
 ## ✨ Features
 
-- 🎯 **Match-Analyse:** Vergleicht Anforderungsprofile von Stellenanzeigen direkt mit dem eigenen Lebenslauf/Profil.
-- ✍️ **Automatisierte Anschreiben:** Erstellt präzise, auf die Stelle zugeschnittene Bewerbungsschreiben.
-- 🔒 **Zero-Data Architecture:** Keine Datenbank-Speicherung. Übermittelte Daten werden flüchtig im n8n-Workflow verarbeitet und umgehend verworfen.
-- 🎨 **Dark Glassmorphism UI:** Responsive, moderne Nutzeroberfläche mit Custom Design Tokens und Lucide Icons.
-- ⚖️ **Rechtssicher:** Inklusive DSGVO-konformer Datenschutzerklärung & Impressum (§ 5 DDG).
+- **🎯 Match-Analyse:** Vergleicht Anforderungsprofile von Stellenanzeigen direkt mit dem eigenen Lebenslauf/Profil.
+- **✍️ Automatisierte Anschreiben:** Erstellt präzise, auf die Stelle zugeschnittene Bewerbungsschreiben.
+- **🔒 Zero-Data Architecture:** Keine Datenbank-Speicherung. Übermittelte Daten werden flüchtig im n8n-Workflow verarbeitet und umgehend verworfen.
+- **🎨 Dark Glassmorphism UI:** Responsive, moderne Nutzeroberfläche mit Custom Design Tokens und Lucide Icons.
+- **⚖️ Rechtssicher:** Inklusive DSGVO-konformer Datenschutzerklärung & Impressum (§ 5 DDG).
+- **🛡️ Gesicherte Server-Anbindung:** Direkte, authentifizierte Kommunikation mit dem selbstgehosteten n8n-Server via API und Passwort-Schutz.
 
 ---
 
 ## 🛠 Tech Stack
 
 - **Frontend:** HTML5, CSS3 (Custom Variables, Glassmorphism), Vanilla JavaScript
-- **Icons & Fonts:** Lucide Icons, *Plus Jakarta Sans* & *JetBrains Mono*
-- **Backend / Automation:** Self-hosted n8n (Webhooks & Workflow Engine)
+- **Icons & Fonts:** Lucide Icons, Plus Jakarta Sans & JetBrains Mono
+- **Backend / Automation:** Self-hosted n8n (Webhooks & Workflow Engine mit API- & Passwort-Absicherung)
 - **Deployment:** GitHub Pages / Netlify
 
 ---
@@ -31,27 +30,26 @@
 [ User Input (Formular) ]
           │
           ▼
-   (HTTP POST Webhook)
+   (HTTP POST Webhook + API/Passwort-Header)
           │
           ▼
-    [ n8n Workflow ]  ────►  [ KI / LLM Processing ]
-          │                          │
-          ▼                          ▼
-   (Flüchtige Verarbeitung)   (Match Score & Cover Letter)
-          │                          │
-          └───────────┬──────────────┘
+    [ Self-hosted n8n Workflow ]  ────►  [ KI / LLM Processing ]
+          │                                     │
+          ▼                                     ▼
+   (Flüchtige Verarbeitung)              (Match Score & Cover Letter)
+          │                                     │
+          └───────────┬─────────────────────────┘
                       │
                       ▼
         [ Output an Frontend Browser ]
 
+    Der Nutzer gibt die Stellenbeschreibung und eigene Daten im Frontend ein.
 
-Der Nutzer gibt die Stellenbeschreibung und eigene Daten im Frontend ein.
+    Das Formular sendet die Anfrage per gesichertem HTTPS-POST-Request (inkl. API-Schlüssel/Passwort im Header) an den eigenen n8n-Webhook.
 
-    Das Formular sendet die Anfrage per HTTPS-Post an einen n8n-Webhook.
+    n8n verarbeitet die Prompt-Logik auf dem eigenen Server und gibt das Ergebnis in Echtzeit zurück.
 
-    n8n verarbeitet die Prompt-Logik und gibt das Ergebnis in Echtzeit zurück.
-
-    Nach der Antwort werden keine Nutzerdaten auf dem Server gespeichert.
+    Nach der Antwort werden keine Nutzerdaten auf dem Server persistiert.
 
 🚀 Quickstart / Lokale Einrichtung
 
@@ -64,8 +62,12 @@ Der Nutzer gibt die Stellenbeschreibung und eigene Daten im Frontend ein.
     Dateien öffnen:
     Öffne die index.html direkt in deinem Browser oder nutze eine Live-Server-Erweiterung (z. B. VS Code Live Server).
 
-    n8n Webhook anpassen:
-    Trage in der index.html im <script>-Bereich die URL deines eigenen n8n-Webhooks ein.
+    n8n Webhook & API-Zugangsdaten anpassen:
+    Trage in der index.html im <script>-Bereich die URL deines eigenen n8n-Webhooks sowie ggf. deinen API-Key / dein Passwort für die Authentifizierung ein:
+    JavaScript
+
+    const WEBHOOK_URL = "[https://dein-n8n-server.de/webhook/dein-webhook-pfad](https://dein-n8n-server.de/webhook/dein-webhook-pfad)";
+    const API_KEY = "dein-sicheres-passwort-oder-api-token";
 
 📂 Projektstruktur
 Plaintext
