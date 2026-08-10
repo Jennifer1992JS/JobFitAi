@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JobFit AI – Stellenanzeigen mappen & Anschreiben generieren</title>
+  <title>JobFitAI – Stellenanzeigen mappen & Anschreiben generieren</title>
   
   <!-- Lucide Icons Library -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -29,12 +29,15 @@
     }
 
     body {
-      background-image: url('grafik_2.png');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
       background-color: #0a0414;
+      /* Geometrische Formen und Cyberpunk-Grid direkt als CSS-Hintergrund */
+      background-image: 
+        radial-gradient(circle at 20% 15%, rgba(192, 132, 252, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 80% 85%, rgba(236, 72, 153, 0.12) 0%, transparent 45%),
+        linear-gradient(to right, rgba(192, 132, 252, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(192, 132, 252, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+      background-attachment: fixed;
       color: var(--text-main);
       font-family: var(--font-sans);
       min-height: 100vh;
@@ -42,19 +45,6 @@
       flex-direction: column;
       position: relative;
       overflow-x: hidden;
-    }
-
-    /* Dark Overlay for readability over grafik_2.png */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(10, 4, 20, 0.65);
-      pointer-events: none;
-      z-index: -1;
     }
 
     .container {
@@ -70,18 +60,18 @@
       padding: 48px 0 32px 0;
     }
 
-    /* Logo aus dem Assets-Ordner */
+    /* Logo & Name aus assets/jobfitai.png */
     .hero-logo-container {
       display: flex;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .hero-logo {
-      height: 64px;
+      max-height: 90px;
       width: auto;
       object-fit: contain;
-      filter: drop-shadow(0 0 20px rgba(192, 132, 252, 0.45));
+      filter: drop-shadow(0 0 24px rgba(192, 132, 252, 0.35));
     }
 
     .badge-pill {
@@ -100,7 +90,7 @@
     }
 
     .hero-title {
-      font-size: 2.8rem;
+      font-size: 2.6rem;
       font-weight: 800;
       line-height: 1.15;
       margin-bottom: 16px;
@@ -115,7 +105,7 @@
 
     .hero-subtitle {
       color: var(--text-dim);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       max-width: 640px;
       margin: 0 auto;
       line-height: 1.6;
@@ -384,18 +374,20 @@
     
     <!-- HERO SECTION -->
     <section class="hero">
-      <!-- Logo aus assets-Ordner eingebunden -->
+      <!-- Korrekter Pfad zur Grafik aus dem assets-Ordner: jobfitai.png -->
       <div class="hero-logo-container">
-        <img src="assets/logo.png" alt="JobFit AI Logo" class="hero-logo">
+        <img src="assets/jobfitai.png" alt="JobFit AI Logo" class="hero-logo">
       </div>
 
       <div class="badge-pill">
         <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i> Powered by n8n &amp; Zero Data Architecture
       </div>
+      
       <h1 class="hero-title">
         Stellenanzeigen mappen &amp;<br>
         <span class="gradient-text">Anschreiben</span> generieren
       </h1>
+      
       <p class="hero-subtitle">
         Füge die Stellenbeschreibung und deine Fähigkeiten ein. Unsere KI analysiert das Match, hebt relevante Stärken hervor und formuliert ein individuelles Anschreiben.
       </p>
