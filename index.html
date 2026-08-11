@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JobFit AI – Stellenanzeigen mappen & Anschreiben generieren</title>
   
+  <!-- JobFit AI Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <!-- Lucide Icons Library -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -61,7 +66,7 @@
 
     /* HEADER & NAV */
     .nav-header {
-      padding: 24px 0;
+      padding: 18px 0;
       border-bottom: 1px solid var(--card-border);
       backdrop-filter: blur(10px);
       position: sticky;
@@ -146,9 +151,9 @@
     }
 
     .hero-title {
-      font-size: 2.8rem;
+      font-size: clamp(2.35rem, 5vw, 3.15rem);
       font-weight: 800;
-      line-height: 1.15;
+      line-height: 1.08;
       margin-bottom: 16px;
       letter-spacing: -0.03em;
     }
@@ -160,9 +165,9 @@
     }
 
     .hero-subtitle {
-      color: var(--text-dim);
-      font-size: 1.1rem;
-      max-width: 640px;
+      color: #aebbd0;
+      font-size: 1.03rem;
+      max-width: 700px;
       margin: 0 auto;
       line-height: 1.6;
     }
@@ -173,12 +178,12 @@
     }
 
     .glass-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      background: rgba(16, 22, 36, 0.30);
+      border: 1px solid rgba(130, 190, 255, 0.12);
       border-radius: 20px;
       padding: 32px;
       backdrop-filter: blur(16px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(255,255,255,0.015) inset;
     }
 
     .form-grid {
@@ -199,15 +204,15 @@
       gap: 8px;
       font-size: 0.95rem;
       font-weight: 600;
-      color: var(--text-main);
+      color: #eaf4ff;
     }
 
     .custom-textarea {
       width: 100%;
       height: 240px;
-      background: rgba(9, 13, 22, 0.6);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
+      background: rgba(6, 11, 20, 0.48);
+      border: 1px solid rgba(135, 190, 245, 0.13);
+      border-radius: 14px;
       padding: 16px;
       color: var(--text-main);
       font-family: var(--font-sans);
@@ -219,8 +224,8 @@
 
     .custom-textarea:focus {
       outline: none;
-      border-color: var(--cyan);
-      box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+      border-color: rgba(98, 199, 255, 0.72);
+      box-shadow: 0 0 0 3px rgba(98, 199, 255, 0.06), 0 0 18px rgba(98, 199, 255, 0.10);
     }
 
     .char-counter {
@@ -354,8 +359,8 @@
 
     .output-box {
       width: 100%;
-      background: rgba(9, 13, 22, 0.8);
-      border: 1px solid var(--card-border);
+      background: rgba(6, 11, 20, 0.62);
+      border: 1px solid rgba(135, 190, 245, 0.12);
       border-radius: 12px;
       padding: 20px;
       color: var(--text-main);
@@ -369,7 +374,7 @@
       margin-top: auto;
       padding: 24px 0;
       border-top: 1px solid var(--card-border);
-      background: rgba(9, 13, 22, 0.9);
+      background: rgba(6, 10, 18, 0.82);
       font-size: 0.85rem;
       color: var(--text-dim);
     }
@@ -446,14 +451,14 @@
     <!-- HERO SECTION -->
     <section class="hero">
       <div class="badge-pill">
-        <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i> Powered by n8n & Zero-Data Architecture
+        <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i> Privat verarbeitet · keine dauerhafte Datenspeicherung
       </div>
       <h1 class="hero-title">
-        Stellenanzeigen mappen &<br>
-        <span class="gradient-text">perfekte Anschreiben</span> generieren
+        <span style="color:#f5f9ff;">Passt diese Stelle</span><br>
+        <span class="gradient-text">wirklich zu dir?</span>
       </h1>
       <p class="hero-subtitle">
-        Füge die Stellenbeschreibung und deine Daten ein. Unsere KI analysiert den Match, hebt relevante Stärken hervor und formuliert ein individuelles Anschreiben.
+        Vergleiche dein Profil mit den Anforderungen der Stelle. Erkenne, was bereits passt, wo dir Erfahrung fehlt und welche Stärken du in deiner Bewerbung hervorheben solltest.
       </p>
     </section>
 
@@ -461,21 +466,25 @@
     <div class="glass-card app-workspace">
       <form id="jobfit-form">
         
+        <div style="margin-bottom: 18px; color: #7f91aa; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">
+          In 2 Schritten zu deiner Analyse
+        </div>
+
         <div class="form-grid">
           <div class="input-group">
             <label class="input-label" for="job-description">
-              <i data-lucide="briefcase" style="width: 18px; height: 18px;"></i> Stellenbeschreibung / Anforderungen
+              <i data-lucide="briefcase" style="width: 18px; height: 18px;"></i> Die Stelle
             </label>
-            <textarea id="job-description" class="custom-textarea" maxlength="6000" placeholder="Kopiere hier den Text der Stellenanzeige hinein (Aufgaben, Anforderungen, Qualifikationen)..." required></textarea>
-            <div class="char-counter"><span id="job-count">0</span> / 6000 Zeichen</div>
+            <textarea id="job-description" class="custom-textarea" maxlength="6000" placeholder="Kopiere hier die Stellenanzeige hinein. Aufgaben, Anforderungen und Qualifikationen reichen völlig." required></textarea>
+            <div class="char-counter"><span id="job-count">0</span> / 6000</div>
           </div>
 
           <div class="input-group">
             <label class="input-label" for="user-profile">
-              <i data-lucide="file-user" style="width: 18px; height: 18px;"></i> Dein Profil / Lebenslauf
+              <i data-lucide="file-user" style="width: 18px; height: 18px;"></i> Dein Profil
             </label>
-            <textarea id="user-profile" class="custom-textarea" maxlength="6000" placeholder="Füge deinen Lebenslauf, wichtige Skills, Erfahrung und Werdegang ein..." required></textarea>
-            <div class="char-counter"><span id="profile-count">0</span> / 6000 Zeichen</div>
+            <textarea id="user-profile" class="custom-textarea" maxlength="6000" placeholder="Füge deinen Lebenslauf, Skills, Erfahrung und relevante Projekte ein..." required></textarea>
+            <div class="char-counter"><span id="profile-count">0</span> / 6000</div>
           </div>
         </div>
 
@@ -483,7 +492,7 @@
         <div class="kofi-container">
           <div class="kofi-text">
             <i data-lucide="coffee" style="width: 16px; height: 16px; color: #FF5F5F;"></i>
-            <span>Gefällt dir das kostenlose Tool? Unterstütze die Serverkosten mit einem Kaffee:</span>
+            <span>JobFit AI ist kostenlos. Wenn dir das Tool hilft, kannst du mit einem Kaffee die Serverkosten unterstützen:</span>
           </div>
           <a href="https://ko-fi.com/jenniferstoll" target="_blank" rel="noopener noreferrer" class="btn-kofi">
             <i data-lucide="heart" style="width: 14px; height: 14px;"></i>
@@ -492,7 +501,7 @@
         </div>
 
         <button type="submit" id="submit-btn" class="btn-submit">
-          <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i> jetzt analysieren & Anschreiben generieren
+          <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i> Meine Passung analysieren
         </button>
 
       </form>
@@ -501,7 +510,7 @@
       <div id="output-container" class="output-container">
         <div class="output-header">
           <span class="output-title">
-            <i data-lucide="check-circle-2" style="width: 22px; height: 22px;"></i> Generierte Analyse & Anschreiben
+            <i data-lucide="check-circle-2" style="width: 22px; height: 22px;"></i> Deine JobFit-Analyse
           </span>
           <button class="btn-copy" onclick="copyResult()">
             <i data-lucide="copy" style="width: 16px; height: 16px;"></i> Kopieren
@@ -1300,7 +1309,7 @@
 
       // UI State: Loading
       submitBtn.disabled = true;
-      submitBtn.innerHTML = `<i data-lucide="loader-2" class="spin" style="width: 20px; height: 20px;"></i> Verarbeite Daten via n8n...`;
+      submitBtn.innerHTML = `<i data-lucide="loader-2" class="spin" style="width: 20px; height: 20px;"></i> Analysiere deine Passung...`;
       lucide.createIcons();
 
       try {
@@ -1333,7 +1342,7 @@
       } finally {
         // UI State zurücksetzen
         submitBtn.disabled = false;
-        submitBtn.innerHTML = `<i data-lucide="sparkles" style="width: 20px; height: 20px;"></i> jetzt analysieren & Anschreiben generieren`;
+        submitBtn.innerHTML = `<i data-lucide="sparkles" style="width: 20px; height: 20px;"></i> Meine Passung analysieren`;
         lucide.createIcons();
       }
     });
